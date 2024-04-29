@@ -14,7 +14,6 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 export interface ProcessEnv {
   [key: string]: string | undefined;
 }
-
 const app: express.Application = express();
 
 // view engine setup
