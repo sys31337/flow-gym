@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+ 
 import React, { SVGProps } from 'react';
 
 const Logo = (props: SVGProps<SVGSVGElement>) => {
