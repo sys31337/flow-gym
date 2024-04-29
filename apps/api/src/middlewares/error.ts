@@ -8,7 +8,7 @@ const notFound = (req: Request, res: Response, next: NextFunction): void => {
   next(error);
 };
 
-const errorHandler = (error: IError, req: Request, res: Response, next: NextFunction): void => {
+const errorHandler = (error: IError, _: Request, res: Response, __: NextFunction): void => {
   const status = res.statusCode === 200 ? 400 : res.statusCode;
   res.status(status);
   let message;
