@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Default",
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "build",
+    "skipLibCheck": true,
+    "allowJs": false,
+    "checkJs": false,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "moduleResolution": "node",
+    "types": [
+      "node"
+    ],
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "paths": {
+      "@shared/*": [
+        "./shared/*"
+      ],
+      "@service-account.json": [
+        "./shared/configs/service-account.json"
+      ],
+      "@api/*": [
+        "./apps/api/src/*"
+      ]
+    }
+  }
+}
