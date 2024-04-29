@@ -17,8 +17,6 @@ const errorHandler = (error: IError, req: Request, res: Response, next: NextFunc
   } else {
     message = error.message;
   }
-  // eslint-disable-next-line no-console
-  console.log({ message, ...(process.env.NODE_ENV === 'development' && { stack: error.stack }) });
   res.json({ message, ...(process.env.NODE_ENV === 'development' && { stack: error.stack }) });
 };
 
