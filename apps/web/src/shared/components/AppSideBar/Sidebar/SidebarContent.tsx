@@ -4,9 +4,8 @@ import {
 } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 import {
-  BiSolidLabel, BiSolidMessageSquareDetail, BiSolidMessageSquareDots, BiSolidOffer, BiSolidRocket,
+  BiSolidLabel, BiSolidMessageSquareDots,
 } from 'react-icons/bi';
-import Logo from '@shared/assets/Logo';
 import NavItem from './NavItem';
 import { useAuth } from '../../Authentication/AuthContext';
 
@@ -26,9 +25,6 @@ const LinkItems: Array<LinkItemProps> = [
   { id: 1, name: 'page 2', icon: BiSolidMessageSquareDots, link: '/p2' },
   { id: 1, name: 'page 3', icon: BiSolidMessageSquareDots, link: '/p3' },
   { id: 1, name: 'page 4', icon: BiSolidMessageSquareDots, link: '/p4' },
-  // { id: 2, name: 'create_chatbot', icon: BiSolidRocket, link: '/chatbots/create-bot' },
-  // { id: 3, name: 'conversations', icon: BiSolidMessageSquareDetail, link: '/conversations' },
-  // { id: 4, name: 'offers', icon: BiSolidOffer, link: '/offers' },
 ];
 
 const SidebarContent: React.FC<SidebarProps> = ({ onClose, ...rest }) => {
