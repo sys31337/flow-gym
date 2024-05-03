@@ -6,7 +6,6 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { errorHandler, notFound } from './middlewares/error';
 import api from './routes';
-// import { errorHandler, notFound } from './middlewares/error';
 
 dotenv.config({ path: path.join(__dirname, '../.env') });
 

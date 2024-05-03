@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .form-control {
+    @apply w-full rounded-md border-0 p-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring-blue-600
+  }
+  .btn-primary {
+    @apply w-full rounded-md bg-blue-600 p-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500
+  }
+}
