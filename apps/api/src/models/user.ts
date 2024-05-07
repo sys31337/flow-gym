@@ -15,6 +15,10 @@ const userSchema = new Schema({
     enum: [MEMBER, COACH, MANAGER, ADMIN],
     default: MEMBER
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  }
   // clubId: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'Club',

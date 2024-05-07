@@ -21,6 +21,12 @@ module.exports = {
     "react/no-unescaped-entities": "off",
     "no-param-reassign": "off",
     "no-underscore-dangle": 0,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        peerDependencies: true,
+      },
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",

@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
@@ -20,6 +21,20 @@ app.set('view engine', 'hbs');
 app.set('json spaces', 2)
 
 app.use(helmet());
+
+const origins = (process.env.CORS_FRONTEND_DOMAINS as string)?.split(' ');
+
+const origin = (thisOrigin: string | undefined, callback: (err: Error | null, o?: boolean | string | RegExp | (boolean | string | RegExp)[]) => void) => {
+  const list = [...origins, thisOrigin] as string[];
+  callback(null, list);
+};
+
+app.use(cors({
+  origin,
+  optionsSuccessStatus: 200,
+  credentials: true,
+}));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

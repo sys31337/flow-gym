@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyDGx1mko4v_9jn6x70NgbDk42m_8kni4Hk',
   authDomain: 'flow-gym-dev.firebaseapp.com',
   projectId: 'flow-gym-dev',

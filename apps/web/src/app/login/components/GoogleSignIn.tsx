@@ -6,6 +6,7 @@ const GoogleSignIn = () => {
   return (
     <button
       aria-label="Sign in with Google"
+      type="button"
       className="flex items-center justify-center font-semibold bg-white border border-button-border-light rounded-md p-0.5 pr-3"
       onClick={onButtonClick}
     >

@@ -5,8 +5,7 @@
   "main": "./src/index.d.ts",
   "types": "./src/index.d.ts",
   "exports": {
-    "./user": "./src/user.d.ts",
-    "./auth": "./src/auth.d.ts"
+    "./*": "./src/*.d.ts"
   },
   "scripts": {
   },

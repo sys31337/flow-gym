@@ -1,9 +1,18 @@
 /* eslint-disable import/prefer-default-export */
+// import { getCurrentUser } from '@shared/functions/user';
 import type { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const options: NextAuthOptions = {
+  callbacks: {
+    async signIn(s) {
+      console.log(JSON.stringify(s));
+      // console.log('qsd3', account?.id_token);
+      // const cur = await getCurrentUser(account?.id_token);
+      return true;
+    },
+  },
   pages: { signIn: '/login' },
   providers: [
     GoogleProvider({
