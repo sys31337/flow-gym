@@ -6,8 +6,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const options: NextAuthOptions = {
   callbacks: {
-    async signIn(s) {
-      console.log(JSON.stringify(s));
+    async signIn() {
+      // console.log(JSON.stringify(s));
       // console.log('qsd3', account?.id_token);
       // const cur = await getCurrentUser(account?.id_token);
       return true;

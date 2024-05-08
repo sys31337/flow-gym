@@ -6,6 +6,7 @@ import Layout from './components/Layout';
 const Page = (): JSX.Element => {
   const session = useSession();
   if (!session) {
+    // eslint-disable-next-line no-console
     console.log('here');
   }
   return (

@@ -7,6 +7,14 @@ module.exports = {
   },
   ignorePatterns: ["postcss.config.js", "tailwind.config.js", ".eslintrc.js"],
   rules: {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_",
+        "caughtErrors": "none"
+      }
+    ],
     "@typescript-eslint/no-unused-vars": 2,
     "react/jsx-filename-extension": [
       0,

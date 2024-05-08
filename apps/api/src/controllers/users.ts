@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from 'express';
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const payload = req.body;
-    const { email, password } = payload;
+    // const { email, password } = payload;
     // const firebaseCreate = await admin.auth().createUser({ email, password });
     const firebaseId = 'firebaseCreate.uid';
     const create = await new User({ ...payload, firebaseId }).save();
