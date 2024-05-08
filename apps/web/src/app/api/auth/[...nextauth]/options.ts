@@ -13,7 +13,6 @@ export const options: NextAuthOptions = {
       return true;
     },
   },
-  pages: { signIn: '/login' },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
