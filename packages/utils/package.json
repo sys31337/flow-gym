@@ -2,15 +2,17 @@
   "name": "@repo/utils",
   "version": "0.0.1",
   "private": true,
-  "exports": {
-    ".": "./src/index.ts"
-  },
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup src --format cjs",
-    "dev": "tsc --watch"
+    "build": "tsup src --format cjs"
   },
   "dependencies": {
     "tsup": "^8.0.2",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.5.5"
   }
 }

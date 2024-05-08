@@ -1,17 +1,40 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "target": "ES5",
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "preserveWatchOutput": true,
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
     "skipLibCheck": true,
-    "noEmit": true,
-    "strict": true,
-    "outDir": "./dist"
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "types": [
+      "./src/types/joi-objectid"
+    ],
+    "paths": {
+      "@api/*": [
+        "./src/*"
+      ]
+    },
   },
+  "include": [
+    "*.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "exclude": [
+    "dist",
+    "build",
     "node_modules"
   ]
 }
