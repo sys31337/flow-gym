@@ -6,6 +6,7 @@
     "outDir": "dist",
     "composite": true,
     "tsBuildInfoFile": "tsconfig.tsbuildinfo",
+    "types": ["./src/types/joi-objectid"],
     "paths": {
       "@api/*": [
         "./src/*"
@@ -19,7 +20,4 @@
     "dist",
     "build"
   ],
-  "ts-node": {
-    "swc": true,
-  }
 }

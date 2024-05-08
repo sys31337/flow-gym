@@ -5,8 +5,12 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "scripts": {
+    "build": "tsup src --format cjs",
+    "dev": "tsc --watch"
+  },
   "dependencies": {
-
+    "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   }
 }
