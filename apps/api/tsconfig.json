@@ -1,8 +1,25 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "typeRoots": [
-      "./src/types",
-    ],
+    "baseUrl": ".",
+    "jsx": "react",
+    "outDir": "dist",
+    "composite": true,
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo",
+    "paths": {
+      "@api/*": [
+        "./src/*"
+      ]
+    },
+  },
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "dist",
+    "build"
+  ],
+  "ts-node": {
+    "swc": true,
   }
 }

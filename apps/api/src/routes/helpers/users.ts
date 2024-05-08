@@ -1,4 +1,6 @@
-import { getAllUsers, getUserById, getCurrentUser, createUser } from '@api/controllers/users';
+import {
+  getAllUsers, getUserById, getCurrentUser, createUser,
+} from '@api/controllers/users';
 import { auth, isAdmin } from '@api/middlewares/auth';
 import { userCreateValidator } from '@api/validations/users';
 import express from 'express';

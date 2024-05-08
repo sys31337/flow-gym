@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { COACH, MANAGER, ADMIN, MEMBER } from '@api/constants/users';
+import {
+  COACH, MANAGER, ADMIN, MEMBER,
+} from '@api/constants/users';
 
 const userSchema = new Schema({
   fullname: String,
@@ -9,16 +11,16 @@ const userSchema = new Schema({
   },
   firebaseId: String,
   phoneNumber: String,
-  avatar: { type: String, default: "default.png" },
+  avatar: { type: String, default: 'default.png' },
   kind: {
     type: String,
     enum: [MEMBER, COACH, MANAGER, ADMIN],
-    default: MEMBER
+    default: MEMBER,
   },
   isAdmin: {
     type: Boolean,
     default: false,
-  }
+  },
   // clubId: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'Club',

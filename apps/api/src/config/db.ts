@@ -9,4 +9,6 @@ const { DATABASEURI } = process.env;
 mongoose.set('strictQuery', true);
 mongoose.connect(DATABASEURI as string, { useNewUrlParser: true, useUnifiedTopology: true } as mongoose.ConnectOptions);
 
-export const db: mongoose.Connection = mongoose.connection;
+const db: mongoose.Connection = mongoose.connection;
+
+export default db;

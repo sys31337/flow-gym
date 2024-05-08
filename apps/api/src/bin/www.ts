@@ -1,7 +1,7 @@
 import http from 'http';
 import app from '@api/app';
-import { log, logError } from '@api/utils';
-import { db } from '@api/config/db';
+import { log, logError } from '@repo/utils';
+import db from '@api/config/db';
 
 interface IError { syscall: string, code: string }
 
@@ -55,11 +55,11 @@ const onListening = (): void => {
     : `Port ${PORT}`;
   log(`Listening on ${bind}`);
   db.once('open', () => {
-    console.log('Database Connected');
+    log('Database Connected');
   });
 
   db.on('error', (error: Error) => {
-    console.log('Database Connection error:', error);
+    logError('Database Connection error:', error);
   });
 };
 

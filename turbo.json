@@ -5,11 +5,9 @@
     ".env.local",
     "tsconfig.json"
   ],
-  "globalEnv": [
-    "NEXT_PUBLIC_GOOGLE_CLIENT_ID",
-    "NEXT_PUBLIC_GOOGLE_CLIENT_SECRET",
-    "NEXTAUTH_URL",
-    "NEXTAUTH_SECRET"
+  "globalDotEnv": [
+    ".env",
+    ".env.local"
   ],
   "pipeline": {
     "build": {

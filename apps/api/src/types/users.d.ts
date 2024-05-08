@@ -1,5 +1,4 @@
 import { Request } from 'express';
-import { Document, Types, PopulatedDoc } from 'mongoose';
 
 export interface authRequest extends Request {
   origin?: string;
