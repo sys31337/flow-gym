@@ -10,9 +10,10 @@ export default async function middleware(req: NextRequestWithAuth, event: NextFe
     return NextResponse.redirect(new URL('/', req.url));
   }
 
-  const authMiddleware = await withAuth({
+  const authMiddleware = withAuth({
     pages: {
       signIn: '/login',
+      newUser: '/signup',
     },
   });
 
