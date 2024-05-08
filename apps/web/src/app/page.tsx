@@ -1,18 +1,16 @@
 'use client';
 
-import { signOut, useSession } from 'next-auth/react';
+import { auth } from '@config/firebase';
 import Layout from './components/Layout';
+import { useAuth } from './context/AuthProvider';
 
 const Page = (): JSX.Element => {
-  const session = useSession();
-  if (!session) {
-    // eslint-disable-next-line no-console
-    console.log('here');
-  }
+  const { state: { user } } = useAuth();
+  const signOut = () => auth.signOut();
   return (
     <Layout>
-      <div >{session?.data?.user?.name}</div>
-      <button onClick={() => signOut()}>Logout</button>
+      <div >{JSON.stringify(user)}</div>
+      <button onClick={signOut}>Logout</button>
     </Layout>
   );
 };

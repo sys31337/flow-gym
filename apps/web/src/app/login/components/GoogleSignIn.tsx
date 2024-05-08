@@ -1,8 +1,18 @@
-import { signIn } from 'next-auth/react';
-import React from 'react';
+import { auth } from '@config/firebase';
+import { signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
+import React, { useEffect } from 'react';
+
+const provider = new GoogleAuthProvider();
 
 const GoogleSignIn = () => {
-  const onButtonClick = () => signIn('google');
+  const onButtonClick = () => signInWithPopup(auth, provider);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (authUser) => {
+      console.log(await authUser?.getIdToken());
+    });
+  }, []);
+
   return (
     <button
       aria-label="Sign in with Google"
