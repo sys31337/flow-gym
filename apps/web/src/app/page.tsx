@@ -3,6 +3,7 @@
 import { auth } from '@config/firebase';
 import Layout from './components/Layout';
 import { useAuth } from './context/AuthProvider';
+import PrivateRoute from './components/PrivateRoute';
 
 const Page = (): JSX.Element => {
   const { state: { user } } = useAuth();
@@ -15,4 +16,4 @@ const Page = (): JSX.Element => {
   );
 };
 
-export default Page;
+export default PrivateRoute(Page);
