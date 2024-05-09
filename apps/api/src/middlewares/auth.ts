@@ -1,44 +1,44 @@
 import { NextFunction, Response } from 'express';
+import { Types } from 'mongoose';
+import jwt from 'jsonwebtoken';
 import { authRequest } from '@api/types/users';
 import User from '@api/models/user';
 
+interface JwtPayload {
+  _id: string;
+  email: string;
+  avatar: string;
+  kind: string;
+  authProvider: string;
+  isAdmin: boolean;
+  iat: number;
+}
+
 const auth = async (req: authRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    if (!req.headers.authorization) {
+    if (!req.cookies.jwt) {
       res.status(401);
       throw new Error('AUTHORIZATION_REQUIRED');
     }
 
-    const token = req.headers.authorization.split(' ')[1];
+    const cookie = req.cookies.jwt;
 
-    if (!token) {
+    const claims = jwt.verify(cookie, process.env.SECRET_KEY) as JwtPayload;
+
+    if (!claims) {
       res.status(401);
       throw new Error('AUTHORIZATION_TOKEN_REQUIRED');
     }
-    // const decodedValue = await admin.auth().verifyIdToken(token);
 
-    // if (!decodedValue) {
-    //   res.status(401);
-    //   throw new Error('UNAUTHORIZED_BAD_TOKEN');
-    // }
-    // const { originalUrl } = req;
-    // req.firebaseId = decodedValue.uid;
-    // req.name = decodedValue.name;
-    // req.email = decodedValue.email;
-    // req.picture = decodedValue.picture;
-    // req.authTime = new Date(decodedValue.auth_time * 1000);
-    // req.providerId = decodedValue.firebase.sign_in_provider;
-    // const user = await User.findOne({ firebaseId: decodedValue.uid });
-    // // if ((originalUrl === '/api/v1/users/google-login' && !user) || (originalUrl !== '/api/v1/users' && method !== 'POST')) {
-    // if ((originalUrl === '/api/v1/users/google-login' && !user)) {
-    //   return next();
-    // }
-    // if (!user) {
-    //   res.status(404);
-    //   throw new Error('USER_NOTFOUND');
-    // }
+    const user = await User.findById(claims._id);
 
-    // req.userId = user._id as Types.ObjectId;
+    if (!user) {
+      res.status(404);
+      throw new Error('USER_NOTFOUND');
+    }
+    req.email = user.email;
+    req.providerId = user.authProvider;
+    req.userId = user._id as Types.ObjectId;
     return next();
   } catch (e) {
     return next(e);

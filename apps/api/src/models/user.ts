@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 import {
   COACH, MANAGER, ADMIN, MEMBER,
+  AUTHPROVIDERS,
 } from '@api/constants/users';
 
 const userSchema = new Schema({
@@ -17,9 +18,15 @@ const userSchema = new Schema({
     enum: [MEMBER, COACH, MANAGER, ADMIN],
     default: MEMBER,
   },
+  password: String,
+  salt: String,
   isAdmin: {
     type: Boolean,
     default: false,
+  },
+  authProvider: {
+    type: String,
+    enum: AUTHPROVIDERS,
   },
   // clubId: {
   //   type: Schema.Types.ObjectId,
