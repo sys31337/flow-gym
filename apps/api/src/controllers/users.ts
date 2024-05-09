@@ -1,10 +1,12 @@
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import path from 'path';
 import dotenv from 'dotenv';
 import User from '@api/models/user';
 import { authRequest } from '@api/types/users';
-import { Request, Response, NextFunction } from 'express';
+import { PASSWORD } from '@api/constants/users';
+import cookiesOptions from '@api/config/cookies';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
@@ -13,7 +15,10 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     const payload = req.body;
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(payload.password, salt);
-    const create = await new User({ ...payload, password, salt }).save();
+    const userPayload = {
+      ...payload, authProvider: PASSWORD, password, salt,
+    };
+    const create = await new User(userPayload).save();
     return res.status(200).send(create);
   } catch (error) {
     return next(error);
@@ -42,10 +47,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       ...rest,
     }, process.env.SECRET_KEY);
 
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    res.cookie('jwt', token, cookiesOptions);
 
     return res.status(200).send(req.body);
   } catch (error) {
@@ -56,14 +58,11 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 export const getCurrentUser = async (req: authRequest, res: Response, next: NextFunction): Promise<Response | void> => {
   try {
     const { userId } = req;
-    const user = await User.findById(userId).select('-password -salt __v');
+    const user = await User.findById(userId).select('-password -salt -__v');
     if (!user) return res.sendStatus(404);
     const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
 
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    res.cookie('jwt', token, cookiesOptions);
 
     return res.status(200).send(user);
   } catch (error) {
