@@ -15,7 +15,6 @@ module.exports = {
         "caughtErrors": "none"
       }
     ],
-    "@typescript-eslint/no-unused-vars": 2,
     "react/jsx-filename-extension": [
       0,
       {
