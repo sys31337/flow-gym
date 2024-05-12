@@ -3,14 +3,24 @@
 import type { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import axiosInstance from '@shared/services/api';
+import { cookies } from 'next/headers';
 
 export const options: NextAuthOptions = {
   callbacks: {
-    async signIn() {
-      // console.log(JSON.stringify(s));
-      // console.log('qsd3', account?.id_token);
-      // const cur = await getCurrentUser(account?.id_token);
-      return true;
+    async signIn({ account, profile }) {
+      if (account?.provider === 'google') {
+        // return profile?.email_verified && profile?.email?.endsWith('@example.com');
+        if (!profile) return false;
+        return true;
+      }
+      return true; // Do different verification for other providers that don't have `email_verified`
+    },
+  },
+  events: {
+    async signOut() {
+      const cookieStore = cookies();
+      cookieStore.delete('jwt');
     },
   },
   providers: [
@@ -21,10 +31,10 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: {
-          label: 'Username',
+        email: {
+          label: 'Email',
           type: 'text',
-          placeholder: 'Username',
+          placeholder: 'Email',
         },
         password: {
           label: 'Password',
@@ -32,14 +42,25 @@ export const options: NextAuthOptions = {
           placeholder: 'Password',
         },
       },
-      async authorize(credentials): Promise<{ id: string; name: string; password: string; image: string; } | null> {
-        const user = {
-          id: '42', name: 'Dave', password: '1234', image: 'default.png',
-        };
-        if (credentials?.username === user.name && credentials?.password === user.password) {
-          return user;
+      async authorize(credentials) {
+        try {
+          const cookieStore = cookies();
+          const { email, password } = credentials || {};
+          const res = await axiosInstance.request({
+            withCredentials: true,
+            method: 'POST',
+            url: 'users/login',
+            data: { email, password },
+          });
+          const cookie = (res.headers['set-cookie'] as string[])
+            .find((c) => c.includes('jwt'))
+            ?.match('^jwt=(.+?);')
+            ?.[1];
+          if (cookie) cookieStore.set('jwt', cookie);
+          return res.data;
+        } catch (error) {
+          return null;
         }
-        return null;
       },
     }),
   ],

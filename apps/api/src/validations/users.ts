@@ -4,6 +4,10 @@ import { string } from './schema';
 
 const validator = expressJoiValidation.createValidator({ passError: true });
 
+const existanceSchema = Joi.object({
+  email: string.required(),
+});
+
 const loginSchema = Joi.object({
   email: string.required(),
   password: string.required(),
@@ -19,4 +23,5 @@ const userCreateSchema = Joi.object({
 
 export const userCreateValidator = validator.body(userCreateSchema);
 export const loginValidator = validator.body(loginSchema);
+export const existanceValidator = validator.body(existanceSchema);
 export const holder = '';

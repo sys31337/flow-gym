@@ -9,8 +9,10 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.3",
     "@repo/types": "*",
     "@repo/ui": "*",
+    "@repo/utils": "*",
     "@tanstack/react-query": "^5.35.1",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",

@@ -77,3 +77,13 @@ export const getUserById = (req: Request, res: Response, next: NextFunction) => 
     return next(error);
   }
 };
+export const existance = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email }).lean();
+    if (user) return res.status(200).send('EMAIL_IN_USE');
+    return res.status(200).send('EMAIL_NOT_IN_USE');
+  } catch (error) {
+    return next(error);
+  }
+};
