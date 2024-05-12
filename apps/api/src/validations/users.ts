@@ -24,4 +24,3 @@ const userCreateSchema = Joi.object({
 export const userCreateValidator = validator.body(userCreateSchema);
 export const loginValidator = validator.body(loginSchema);
 export const existanceValidator = validator.body(existanceSchema);
-export const holder = '';

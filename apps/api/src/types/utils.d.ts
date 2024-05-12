@@ -1,4 +1,5 @@
 export interface IError {
+  name?: string;
   result: string;
   error: {
     isJoi?: boolean

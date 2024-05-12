@@ -7,6 +7,7 @@ import User from '@api/models/user';
 import { authRequest } from '@api/types/users';
 import { PASSWORD } from '@api/constants/users';
 import cookiesOptions from '@api/config/cookies';
+import { generateTokens } from '@api/utils/jwt';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
@@ -43,13 +44,21 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     if (!passwordCheck) return res.sendStatus(401);
     const { password: _p, salt: _s, ...rest } = user;
 
-    const token = jwt.sign({
-      ...rest,
-    }, process.env.SECRET_KEY);
+    const response = { ...rest, ...generateTokens({ email: user.email }) };
 
-    res.cookie('jwt', token, cookiesOptions);
+    return res.status(200).send(response);
+  } catch (error) {
+    return next(error);
+  }
+};
 
-    return res.status(200).send(req.body);
+export const refreshToken = async (req: authRequest, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req;
+    const user = await User.findById(userId).select('-__v -password -salt').lean();
+    if (!user) return res.sendStatus(404);
+    const response = { ...user, ...generateTokens({ email: user.email }) };
+    return res.status(200).send(response);
   } catch (error) {
     return next(error);
   }

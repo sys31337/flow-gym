@@ -5,4 +5,6 @@ export interface User {
   phoneNumber?: string;
   avatar?: string;
   kind: "MEMBER" | "COACH" | "MANAGER" | "ADMIN";
+  accessToken: string;
+  refreshToken: string;
 }

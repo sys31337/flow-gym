@@ -1,5 +1,4 @@
 import { NextFunction, Response } from 'express';
-import { Types } from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { authRequest } from '@api/types/users';
 import User from '@api/models/user';
@@ -16,29 +15,38 @@ interface JwtPayload {
 
 const auth = async (req: authRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    if (!req.cookies.jwt) {
+    if (!req.headers.authorization) {
       res.status(401);
       throw new Error('AUTHORIZATION_REQUIRED');
     }
-
-    const cookie = req.cookies.jwt;
-
-    const claims = jwt.verify(cookie, process.env.SECRET_KEY) as JwtPayload;
-
-    if (!claims) {
+    const [type, token] = req.headers.authorization?.split(' ') ?? [];
+    if (!token) {
       res.status(401);
       throw new Error('AUTHORIZATION_TOKEN_REQUIRED');
     }
 
-    const user = await User.findById(claims._id);
+    const decodedValue = jwt.verify(token, type === 'Bearer' ? process.env.SECRET_KEY : process.env.REFRESH_KEY) as JwtPayload;
+    if (!decodedValue) {
+      res.status(401);
+      throw new Error('UNAUTHORIZED_BAD_TOKEN');
+    }
+
+    const { originalUrl, method } = req;
+
+    req.email = decodedValue.email;
+
+    if (originalUrl === '/api/v1/users/' && method === 'POST') {
+      return next();
+    }
+
+    const user = await User.findOne({ email: decodedValue.email });
 
     if (!user) {
       res.status(404);
       throw new Error('USER_NOTFOUND');
     }
-    req.email = user.email;
-    req.providerId = user.authProvider;
-    req.userId = user._id as Types.ObjectId;
+
+    req.userId = user._id;
     return next();
   } catch (e) {
     return next(e);

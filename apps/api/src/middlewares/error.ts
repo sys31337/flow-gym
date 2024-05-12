@@ -9,9 +9,11 @@ const notFound = (req: Request, res: Response, next: NextFunction): void => {
 };
 
 const errorHandler = (error: IError, _: Request, res: Response, __: NextFunction): void => {
-  const status = res.statusCode === 200 ? 400 : res.statusCode;
+  const defaultStatus = res.statusCode === 200 ? 400 : res.statusCode;
+  const status = error.name === 'TokenExpiredError' ? 401 : defaultStatus;
   res.status(status);
   let message;
+
   if (error.error) {
     message = error.error.isJoi ? error.error.toString() : `${error.result}`;
   } else {
