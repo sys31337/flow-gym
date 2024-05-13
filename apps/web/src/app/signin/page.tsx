@@ -11,9 +11,7 @@ const SignIn = () => {
     password: '',
   };
 
-  const onSubmit = async (values: typeof initialValues) => {
-    console.log(values);
-  };
+  const onSubmit = async (_values: typeof initialValues) => true;
 
   return (
     <div className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8">

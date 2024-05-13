@@ -20,10 +20,9 @@ const PrivateRoute = (WrappedComponent: React.FC<Any>) => {
     useEffect(() => {
       if (isAuthPage) {
         if (!!user && !authLoading) router.replace('/');
-      } else {
-        console.log('first');
-        if (!user && !authLoading) router.replace('/signin');
       }
+      // console.log('first');
+      if (!user && !authLoading) router.replace('/signin');
       setTimeout(() => setLoading(false), 500);
     }, [user, authLoading, router, pathname]);
 
