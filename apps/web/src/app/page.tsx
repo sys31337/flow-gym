@@ -1,11 +1,10 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
 import Layout from './components/Layout';
 
 const Page = (): JSX.Element => (
   <Layout>
-    <button onClick={() => signOut()}>Logout</button>
+    <button onClick={() => null}>Logout</button>
   </Layout>
 );
 

@@ -1,17 +1,26 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-export const firebaseConfig = {
-  apiKey: 'AIzaSyDGx1mko4v_9jn6x70NgbDk42m_8kni4Hk',
-  authDomain: 'flow-gym-dev.firebaseapp.com',
-  projectId: 'flow-gym-dev',
-  storageBucket: 'flow-gym-dev.appspot.com',
-  messagingSenderId: '582548545163',
-  appId: '1:582548545163:web:cd030d1c9846df5ff0fe8e',
-};
+const API_KEY = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_API_KEY;
+const AUTH_DOMAIN = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_AUTH_DOMAIN;
+const PROJECT_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_PROJECT_ID;
+const STORAGE_BUCKET = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_STORAGE_BUCKET;
+const MESSAGING_SENDER_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_MESSAGING_SENDER_ID;
+const APP_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_APP_ID;
+const MEASUREMENT_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_MEASUREMENT_ID;
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Initialize Firebase Authentication and get a reference to the service
-export const auth = getAuth(app);
-export default app;
+const firebase = initializeApp(
+  {
+    apiKey: API_KEY,
+    authDomain: AUTH_DOMAIN,
+    projectId: PROJECT_ID,
+    storageBucket: STORAGE_BUCKET,
+    messagingSenderId: MESSAGING_SENDER_ID,
+    appId: APP_ID,
+    measurementId: MEASUREMENT_ID,
+  },
+);
+
+const auth = getAuth(firebase);
+
+export default auth;

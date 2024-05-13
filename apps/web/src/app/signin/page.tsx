@@ -3,8 +3,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
-import { signIn } from 'next-auth/react';
-import showAlert from '@shared/functions/showAlert';
 import GoogleSignIn from './components/GoogleSignIn';
 
 const SignIn = () => {
@@ -15,16 +13,7 @@ const SignIn = () => {
 
   const router = useRouter();
   const onSubmit = async (values: typeof initialValues) => {
-    signIn('credentials', { ...values, redirect: false })
-      .then((res) => {
-        if (res?.ok) {
-          router.push('/');
-        } else {
-          showAlert({ text: 'Credentials do not match!', icon: 'error' });
-        }
-      }).catch(() => {
-        showAlert({ text: 'Credentials do not match!', icon: 'error' });
-      });
+    console.log(values);
   };
 
   return (
