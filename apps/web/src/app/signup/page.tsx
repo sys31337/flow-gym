@@ -11,8 +11,7 @@ const SignUp = () => {
   const router = useRouter();
   const { mutateAsync: createAccount } = useCreateAccount();
   const initialValues = {
-    firstName: '',
-    lastName: '',
+    fullname: '',
     email: '',
     password: '',
     confirm: '',
@@ -48,17 +47,10 @@ const SignUp = () => {
           {({ errors, touched, isValid }) => (
             <Form>
               <div className="mt-2">
-                <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">First name</label>
-                <Field name="firstName" className={`form-control ${errors.firstName && touched.firstName ? 'invalid-input' : null}`} />
-                {errors.firstName && touched.firstName ? (
-                  <p className="text-red-600 text-xs">{errors.firstName}</p>
-                ) : null}
-              </div>
-              <div className="mt-2">
-                <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">Last name</label>
-                <Field name="lastName" className={`form-control ${errors.lastName && touched.lastName ? 'invalid-input' : null}`} />
-                {errors.lastName && touched.lastName ? (
-                  <p className="text-red-600 text-xs">{errors.lastName}</p>
+                <label htmlFor="fullname" className="block text-sm font-medium leading-6 text-gray-900">Full name</label>
+                <Field name="fullname" className={`form-control ${errors.fullname && touched.fullname ? 'invalid-input' : null}`} />
+                {errors.fullname && touched.fullname ? (
+                  <p className="text-red-600 text-xs">{errors.fullname}</p>
                 ) : null}
               </div>
               <div className="mt-2">

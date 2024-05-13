@@ -5,7 +5,6 @@ import {
   Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, Transition, TransitionChild,
 } from '@headlessui/react';
 import { classNames } from '@repo/utils';
-import { useGetCurrentUser } from '@api/useAuthentication';
 import {
   HiBars3BottomLeft,
   HiBell,
@@ -17,7 +16,8 @@ import {
   HiUsers,
   HiXMark,
 } from 'react-icons/hi2';
-import { useAuth } from 'app/Providers/AuthProvider';
+import { useAuth } from '@providers/AuthProvider';
+import Loading from '@components/Loading';
 
 type LayoutProps = {
   children: JSX.Element | JSX.Element[]
@@ -39,14 +39,10 @@ const userNavigation = [
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data: user, refetch } = useGetCurrentUser();
-  const { user: usrAuth } = useAuth();
-  console.log(user);
-  console.log(usrAuth);
-  return (
+  const { loading } = useAuth();
+
+  return loading ? <Loading/> : (
     <div>
-      {JSON.stringify(user)}
-      <button type="button" onClick={() => refetch()}>refetch</button>
       <Transition show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
           <TransitionChild
@@ -178,7 +174,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <span className="sr-only">Open sidebar</span>
             <HiBars3BottomLeft className="h-6 w-6" aria-hidden="true" />
           </button>
-          <div className="flex flex-1 justify-between px-4">
+          <div className="flex flex-1 justify-end px-4">
             <div className="ml-4 flex items-center md:ml-6">
               <button
                 type="button"

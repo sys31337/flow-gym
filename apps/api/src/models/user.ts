@@ -12,7 +12,10 @@ const userSchema = new Schema({
   },
   firebaseId: String,
   phoneNumber: String,
-  avatar: { type: String, default: 'default.png' },
+  avatar: {
+    type: String,
+    default: 'default.png',
+  },
   kind: {
     type: String,
     enum: [MEMBER, COACH, MANAGER, ADMIN],

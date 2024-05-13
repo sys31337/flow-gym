@@ -1,58 +1,61 @@
 'use client';
 
 import React, {
-  Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState,
+  createContext, useReducer, useMemo, useEffect, useContext,
+  useState,
 } from 'react';
-import { User, onAuthStateChanged } from 'firebase/auth';
-import auth from '@config/firebase';
-import { useGetCurrentUser } from '@api/useAuthentication';
-import Loading from '@components/Loading';
+import { AuthType, PayloadType, StateType } from '@repo/types/auth';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../config/firebase';
 
-interface CurrentUser {
-  firstname?: string;
-  lastname?: string;
-  email?: string;
-  profilePicture?: string;
-  providerId?: 'google.com' | 'password';
-  createdAt?: Date;
-  role?: 'member' | 'coach' | 'admin' | 'superadmin';
-  isAdmin?: boolean;
+const initialState = { user: null };
+
+export const AuthContext = createContext<AuthType>({
+  state: initialState,
+  dispatch: () => ({}),
+  loading: true,
+});
+
+const authReducer = (state: StateType, action: PayloadType) => {
+  switch (action.type) {
+    case 'SET_IS_LOGGED':
+      return { ...state };
+    case 'USER':
+      return { user: action.payload };
+    case 'LOGOUT':
+      return { user: null };
+    default:
+      return state;
+  }
+};
+
+interface AuthProviderProps {
+  children: JSX.Element
 }
 
-interface AuthContextValue {
-  user: User | null;
-  setUser?: Dispatch<SetStateAction<User | null>>
-  currentUser: CurrentUser;
-  loading: boolean;
-}
-
-const AuthContext = createContext<AuthContextValue>({ user: null, currentUser: {}, loading: true });
-
-export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const { data: currentUser } = useGetCurrentUser();
-  const [loading, setLoading] = useState<boolean>(true);
-
+const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [loading, setLoading] = useState(true);
+  const contextValues = useMemo(() => ({ state, dispatch, loading }), [state]);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {
-        setUser(authUser);
-        setLoading(false);
+        dispatch({ type: 'USER', payload: authUser });
       } else {
-        setUser(null);
-        setLoading(false);
+        dispatch({ type: 'USER', payload: null });
       }
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
-  const value: AuthContextValue = useMemo(() => ({ user, setUser, currentUser, loading }), [user, loading]);
-
-  return loading ? (<Loading />) : (
-    <AuthContext.Provider value={value}>
+  return (
+    <AuthContext.Provider value={contextValues}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => useContext(AuthContext);
+
+export default AuthProvider;

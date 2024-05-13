@@ -8,19 +8,21 @@ const existanceSchema = Joi.object({
   email: string.required(),
 });
 
-const loginSchema = Joi.object({
-  email: string.required(),
-  password: string.required(),
-});
-
 const userCreateSchema = Joi.object({
-  firstName: string.required(),
-  lastName: string.required(),
+  fullname: string.required(),
   email: string.required(),
   password: string.required(),
   confirm: string.required(),
 });
 
+const providerAuthenticateSchema = Joi.object({
+  displayName: string,
+  email: string.required(),
+  avatar: string,
+  firebaseId: string.required(),
+  providerId: string.required(),
+});
+
 export const userCreateValidator = validator.body(userCreateSchema);
-export const loginValidator = validator.body(loginSchema);
 export const existanceValidator = validator.body(existanceSchema);
+export const providerAuthenticateValidator = validator.body(providerAuthenticateSchema);

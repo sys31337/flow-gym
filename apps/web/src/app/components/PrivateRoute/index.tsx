@@ -1,27 +1,33 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from 'app/context/AuthProvider';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuth } from '@providers/AuthProvider';
+import Loading from '@components/Loading';
+import { Any } from '@repo/types/any';
 
-const PrivateRoute = (WrappedComponent: React.ComponentType) => {
+const authPages = ['signin', 'signup'];
+
+const PrivateRoute = (WrappedComponent: React.FC<Any>) => {
   if (WrappedComponent == null) { return () => null; }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function WithAuth(props: any) {
-    const { state: { user } } = useAuth();
-    const [loading, setLoading] = useState(true);
-
+  function WithAuth(props: Any) {
     const router = useRouter();
-
+    const pathname = usePathname();
+    const { state: { user }, loading: authLoading } = useAuth();
+    const [loading, setLoading] = useState(true);
+    const isAuthPage = authPages.includes(pathname.split('/')[1]);
     useEffect(() => {
-      if (!user) {
-        router.replace('/login');
+      if (isAuthPage) {
+        if (!!user && !authLoading) router.replace('/');
+      } else {
+        console.log('first');
+        if (!user && !authLoading) router.replace('/signin');
       }
-      setLoading(false);
-    }, [user, router]);
+      setTimeout(() => setLoading(false), 500);
+    }, [user, authLoading, router, pathname]);
 
-    return (loading) ? <>Loading ..</> : (<WrappedComponent {...props} />);
+    return (loading || authLoading) ? <Loading /> : (<WrappedComponent {...props} />);
   }
   return WithAuth;
 };

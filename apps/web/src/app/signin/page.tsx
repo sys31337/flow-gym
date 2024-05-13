@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
+import PrivateRoute from '@components/PrivateRoute';
 import GoogleSignIn from './components/GoogleSignIn';
 
 const SignIn = () => {
@@ -11,7 +11,6 @@ const SignIn = () => {
     password: '',
   };
 
-  const router = useRouter();
   const onSubmit = async (values: typeof initialValues) => {
     console.log(values);
   };
@@ -66,4 +65,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default PrivateRoute(SignIn);

@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 import User from '@api/models/user';
 import { authRequest } from '@api/types/users';
 import { PASSWORD } from '@api/constants/users';
-import { generateTokens } from '@api/utils/jwt';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
@@ -24,39 +23,22 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
+export const providerAuthentication = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const payload = req.body;
+    const { firebaseId, email } = payload;
+    const user = await User.findOne({ $or: [{ firebaseId }, { email }] });
+    if (user) res.status(200).send(user);
+    const newUser = await new User(payload).save();
+    return res.status(200).send(newUser);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     return res.status(200).send(req.body);
-  } catch (error) {
-    return next(error);
-  }
-};
-
-export const login = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email }).select('-__v').lean();
-    if (!user) return res.sendStatus(404);
-    const passwordCheck = await bcrypt.compare(password, user.password);
-
-    if (!passwordCheck) return res.sendStatus(401);
-    const { password: _p, salt: _s, ...rest } = user;
-
-    const response = { ...rest, ...generateTokens({ email: user.email }) };
-
-    return res.status(200).send(response);
-  } catch (error) {
-    return next(error);
-  }
-};
-
-export const refreshToken = async (req: authRequest, res: Response, next: NextFunction) => {
-  try {
-    const { userId } = req;
-    const user = await User.findById(userId).select('-__v -password -salt').lean();
-    if (!user) return res.sendStatus(404);
-    const response = { ...user, ...generateTokens({ email: user.email }) };
-    return res.status(200).send(response);
   } catch (error) {
     return next(error);
   }

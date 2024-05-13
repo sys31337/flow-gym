@@ -27,6 +27,9 @@
       "@validators/*": [
         "./app/validators/*"
       ],
+      "@providers/*": [
+        "./app/providers/*"
+      ],
       "@components/*": [
         "./app/components/*"
       ]

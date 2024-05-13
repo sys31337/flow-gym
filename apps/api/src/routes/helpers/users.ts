@@ -1,9 +1,8 @@
 import {
-  getAllUsers, getUserById, getCurrentUser, createUser, login, existance,
-  refreshToken,
+  getAllUsers, getUserById, getCurrentUser, createUser, existance, providerAuthentication,
 } from '@api/controllers/users';
 import { auth, isAdmin } from '@api/middlewares/auth';
-import { userCreateValidator, loginValidator, existanceValidator } from '@api/validations/users';
+import { userCreateValidator, existanceValidator, providerAuthenticateValidator } from '@api/validations/users';
 import express from 'express';
 
 const router = express.Router();
@@ -12,10 +11,9 @@ router.route('/')
   .get(auth, isAdmin, getAllUsers)
   .post(userCreateValidator, createUser);
 
-router.post('/login', loginValidator, login);
-router.post('/existance', existanceValidator, existance);
 router.get('/current', auth, getCurrentUser);
-router.post('/refresh', auth, refreshToken);
+router.post('/existance', existanceValidator, existance);
+router.post('/provider', auth, providerAuthenticateValidator, providerAuthentication);
 
 router.get('/:id', getUserById);
 

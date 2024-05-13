@@ -7,10 +7,26 @@ interface Payload {
   password: string;
 }
 
+interface AuthenticateWithProviderPayload {
+  displayName: string | null;
+  email: string | null;
+  avatar: string | null;
+  firebaseId: string | null;
+  providerId: string | null;
+}
+
 export const useCreateAccount = () => useMutation({
   mutationFn: (payload: Payload) => axiosInstance.request({
     method: 'POST',
     url: 'users',
+    data: payload,
+  }),
+});
+
+export const useAuthenticateWithProvider = () => useMutation({
+  mutationFn: (payload: AuthenticateWithProviderPayload) => axiosInstance.request({
+    method: 'POST',
+    url: 'users/provider',
     data: payload,
   }),
 });
