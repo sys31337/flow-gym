@@ -26,6 +26,9 @@
       ],
       "@validators/*": [
         "./app/validators/*"
+      ],
+      "@components/*": [
+        "./app/components/*"
       ]
     },
     "lib": [

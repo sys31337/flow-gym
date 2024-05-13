@@ -1,6 +1,6 @@
 'use client';
 
-import { auth } from '@config/firebase';
+import auth from '@config/firebase';
 import Layout from './components/Layout';
 import { useAuth } from './context/AuthProvider';
 import PrivateRoute from './components/PrivateRoute';

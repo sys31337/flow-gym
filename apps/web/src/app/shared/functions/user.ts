@@ -1,7 +1,12 @@
 import axiosInstance from '@shared/services/api';
 
 export const getCurrentUser = () => axiosInstance
-  .request({ url: 'users/current' })
+  .request({ withCredentials: true, url: 'users/current' })
   .then(({ data }) => data);
 
-export const holder = '';
+export const checkUserExistance = (email: string) => axiosInstance
+  .request({
+    method: 'POST',
+    url: 'users/existance',
+    data: { email },
+  }).then(({ data }) => data);

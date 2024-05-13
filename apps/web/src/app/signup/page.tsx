@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { Formik, Form, Field } from 'formik';
+import { useRouter } from 'next/navigation';
 import { useCreateAccount } from '@api/useAuthentication';
 import SignupSchema from '@validators/signup';
 import showAlert from '@shared/functions/showAlert';
 
 const SignUp = () => {
+  const router = useRouter();
   const { mutateAsync: createAccount } = useCreateAccount();
   const initialValues = {
     firstName: '',
@@ -20,6 +22,7 @@ const SignUp = () => {
     try {
       await createAccount(values);
       showAlert({ text: 'You account was created successfully', icon: 'success' });
+      router.push('/signin');
     } catch (error) {
       showAlert({ text: 'Error', icon: 'error' });
     }
@@ -42,7 +45,7 @@ const SignUp = () => {
           validationSchema={SignupSchema}
           onSubmit={onSubmit}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, isValid }) => (
             <Form>
               <div className="mt-2">
                 <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">First name</label>
@@ -81,7 +84,7 @@ const SignUp = () => {
               </div>
 
               <div className="flex flex-col gap-2 mt-5">
-                <button type="submit" className="btn-primary"> Sign up </button>
+                <button type="submit" className="btn-primary" disabled={!isValid}> Sign up </button>
                 <div className="relative flex py-5 items-center">
                   <div className="flex-grow border-t border-gray-400"></div>
                   <span className="flex-shrink mx-4 text-gray-400">or</span>
@@ -93,7 +96,7 @@ const SignUp = () => {
         </Formik>
         <p className="text-center text-sm text-gray-500">
           Already a member?{' '}
-          <Link href="login" as="/login" className="font-semibold leading-6 text-blue-600 hover:text-blue-500">
+          <Link href="/signin" as="/signin" className="font-semibold leading-6 text-blue-600 hover:text-blue-500">
             login to your account
           </Link>
         </p>

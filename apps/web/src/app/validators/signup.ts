@@ -1,3 +1,4 @@
+import { checkUserExistance } from '@shared/functions/user';
 import * as Yup from 'yup';
 
 const SignupSchema = Yup.object().shape({
@@ -9,7 +10,22 @@ const SignupSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
+  email: Yup.string().email('Invalid email').required('Required').test(
+    'Unique Email',
+    'Email already in use',
+    (email) => new Promise((resolve, _reject) => {
+      checkUserExistance(email)
+        .then((message) => {
+          if (message === 'EMAIL_NOT_IN_USE') resolve(true);
+          if (message === 'EMAIL_IN_USE') resolve(false);
+        })
+        .catch((error) => {
+          if (error.response.status === 409) {
+            resolve(false);
+          }
+        });
+    }),
+  ),
   password: Yup.string()
     .required('Please Enter your password')
     .matches(

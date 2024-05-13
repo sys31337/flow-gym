@@ -7,13 +7,21 @@ module.exports = {
   },
   ignorePatterns: ["postcss.config.js", "tailwind.config.js", ".eslintrc.js"],
   rules: {
+    "object-curly-newline": [
+      "error",
+      {
+        "multiline": true,
+        "minProperties": 5
+      }
+    ],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
-        "args": "all",
-        "argsIgnorePattern": "^_",
-        "caughtErrors": "none"
-      }
+        args: "all",
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        caughtErrors: "none",
+      },
     ],
     "react/jsx-filename-extension": [
       0,

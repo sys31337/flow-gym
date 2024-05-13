@@ -4,13 +4,23 @@ import { string } from './schema';
 
 const validator = expressJoiValidation.createValidator({ passError: true });
 
+const existanceSchema = Joi.object({
+  email: string.required(),
+});
+
+const loginSchema = Joi.object({
+  email: string.required(),
+  password: string.required(),
+});
+
 const userCreateSchema = Joi.object({
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string,
-  confirm: string,
+  firstName: string.required(),
+  lastName: string.required(),
+  email: string.required(),
+  password: string.required(),
+  confirm: string.required(),
 });
 
 export const userCreateValidator = validator.body(userCreateSchema);
-export const holder = '';
+export const loginValidator = validator.body(loginSchema);
+export const existanceValidator = validator.body(existanceSchema);

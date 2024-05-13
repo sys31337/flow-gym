@@ -1,22 +1,22 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import QueryClientProvider from './QueryClientProvider';
+import QueryClientProvider from './Providers/QueryClientProvider';
+import { AuthProvider } from './Providers/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default async function RootLayout({
-  children,
-}: {
+const RootLayout = async ({ children }: {
   children: JSX.Element
-}) {
-  // const session = await getServerSession(options);
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <QueryClientProvider>
+}) => (
+  <html lang="en" className='h-full bg-gray-100'>
+    <body className={`${inter.className} h-full`}>
+      <QueryClientProvider>
+        <AuthProvider>
           {children}
-        </QueryClientProvider>
-      </body>
-    </html>
-  );
-}
+        </AuthProvider>
+      </QueryClientProvider>
+    </body>
+  </html>
+);
+
+export default RootLayout;

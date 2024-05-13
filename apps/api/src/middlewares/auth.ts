@@ -1,8 +1,19 @@
 import { NextFunction, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { authRequest } from '@api/types/users';
 import User from '@api/models/user';
 import admin from '@api/config/firebase';
 import { Types } from 'mongoose';
+
+interface JwtPayload {
+  _id: string;
+  email: string;
+  avatar: string;
+  kind: string;
+  authProvider: string;
+  isAdmin: boolean;
+  iat: number;
+}
 
 const auth = async (req: authRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -10,9 +21,7 @@ const auth = async (req: authRequest, res: Response, next: NextFunction): Promis
       res.status(401);
       throw new Error('AUTHORIZATION_REQUIRED');
     }
-
-    const token = req.headers.authorization.split(' ')[1];
-
+    const [type, token] = req.headers.authorization?.split(' ') ?? [];
     if (!token) {
       res.status(401);
       throw new Error('AUTHORIZATION_TOKEN_REQUIRED');

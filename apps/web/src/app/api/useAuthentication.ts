@@ -1,4 +1,4 @@
-import { getCurrentUser } from '@shared/functions/user';
+import { checkUserExistance } from '@shared/functions/user';
 import axiosInstance from '@shared/services/api';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
@@ -15,7 +15,11 @@ export const useCreateAccount = () => useMutation({
   }),
 });
 
+export const useCheckExistance = () => useMutation({ mutationFn: checkUserExistance });
+
 export const useGetCurrentUser = () => useQuery({
-  queryKey: ['get current user'],
-  queryFn: () => getCurrentUser,
+  queryKey: ['Get current user'],
+  queryFn: async () => axiosInstance
+    .request({ url: 'users/current' })
+    .then(({ data }) => data),
 });
