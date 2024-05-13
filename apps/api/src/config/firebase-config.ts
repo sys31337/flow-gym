@@ -1,7 +1,7 @@
-import admin from 'firebase-admin';
-import { getAuth } from 'firebase-admin/auth';
 import dotenv from 'dotenv';
 import path from 'path';
+import admin from 'firebase-admin';
+import { getAuth } from 'firebase-admin/auth';
 import basicServiceAccount from './service-account.json';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });

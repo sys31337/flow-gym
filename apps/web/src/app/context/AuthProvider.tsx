@@ -3,18 +3,23 @@
 import React, {
   createContext, useReducer, useMemo, useEffect, useContext,
 } from 'react';
+import { GoogleAuthProvider } from 'firebase/auth/web-extension';
 import { AuthType, PayloadType, StateType } from '@repo/types/auth';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
 const initialState = {
   user: null,
+  googleSignIn: () => undefined,
+  logOut: () => undefined,
   isAuthenticated: false,
   isClassicSignUp: false,
 };
 
 export const AuthContext = createContext<AuthType>({
   state: initialState,
+  googleSignIn: () => undefined,
+  logOut: () => undefined,
   dispatch: () => ({}),
 });
 
@@ -47,8 +52,17 @@ interface AuthProviderProps {
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
-  const contextValues = useMemo(() => ({ state, dispatch }), [state]);
 
+  const googleSignIn = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
+
+  const logOut = () => {
+    signOut(auth);
+  };
+
+  const contextValues = useMemo(() => ({ state, dispatch, googleSignIn, logOut }), [state]);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       if (authUser) {

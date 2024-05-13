@@ -9,18 +9,17 @@ const MESSAGING_SENDER_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_MESSAGING_SE
 const APP_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_APP_ID;
 const MEASUREMENT_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_MEASUREMENT_ID;
 
-const firebase = initializeApp(
-  {
-    apiKey: API_KEY,
-    authDomain: AUTH_DOMAIN,
-    projectId: PROJECT_ID,
-    storageBucket: STORAGE_BUCKET,
-    messagingSenderId: MESSAGING_SENDER_ID,
-    appId: APP_ID,
-    measurementId: MEASUREMENT_ID,
-  },
-);
+export const firebaseConfig = {
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID,
+};
 
-const auth = getAuth(firebase);
+const app = initializeApp(firebaseConfig);
 
-export default auth;
+export const auth = getAuth(app);
+export default app;

@@ -12,6 +12,8 @@ export interface PayloadType {
 }
 
 export interface AuthType {
+  googleSignIn: () => void;
+  logOut: () => void;
   state: StateType;
   dispatch: React.Dispatch<PayloadType>
 }

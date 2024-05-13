@@ -17,6 +17,7 @@ import {
   HiUsers,
   HiXMark,
 } from 'react-icons/hi2';
+import { useAuth } from 'app/Providers/AuthProvider';
 
 type LayoutProps = {
   children: JSX.Element | JSX.Element[]
@@ -39,10 +40,13 @@ const userNavigation = [
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: user, refetch } = useGetCurrentUser();
+  const { user: usrAuth } = useAuth();
+  console.log(user);
+  console.log(usrAuth);
   return (
     <div>
       {JSON.stringify(user)}
-      <button type="button" onClick={refetch}>refetch</button>
+      <button type="button" onClick={() => refetch()}>refetch</button>
       <Transition show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
           <TransitionChild
