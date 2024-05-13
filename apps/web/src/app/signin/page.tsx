@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
 import { signIn } from 'next-auth/react';
-import { useCreateAccount } from '@api/useAuthentication';
 import showAlert from '@shared/functions/showAlert';
 import GoogleSignIn from './components/GoogleSignIn';
 
@@ -12,11 +11,6 @@ const SignIn = () => {
   const initialValues = {
     email: '',
     password: '',
-  };
-  const { mutateAsync: cr } = useCreateAccount();
-
-  const onClickB = () => {
-    console.log(cr({ email: 'test', password: 'test' }));
   };
 
   const router = useRouter();
@@ -78,7 +72,6 @@ const SignIn = () => {
             Start a 14 day free trial
           </Link>
         </p>
-        <button onClick={onClickB} className="btn-primary"> onClickB </button>
       </div>
     </div>
   );

@@ -38,10 +38,11 @@ const userNavigation = [
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { data: user } = useGetCurrentUser();
-  console.log('h1s', user);
+  const { data: user, refetch } = useGetCurrentUser();
   return (
     <div>
+      {JSON.stringify(user)}
+      <button type="button" onClick={refetch}>refetch</button>
       <Transition show={sidebarOpen} as={Fragment}>
         <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
           <TransitionChild

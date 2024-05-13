@@ -23,8 +23,8 @@ export default async function middleware(req: NextRequestWithAuth, event: NextFe
 
 export const config = {
   matcher: [
-    { source: '/((?!signup|signin).*)', missing: [{ type: 'cookie', key: 'jwt' }] },
-    { source: '/signup', has: [{ type: 'cookie', key: 'jwt' }] },
-    { source: '/signin', has: [{ type: 'cookie', key: 'jwt' }] },
+    { source: '/((?!signup|signin).*)', missing: [{ type: 'cookie', key: 'isLoggedIn' }] },
+    { source: '/signup', has: [{ type: 'cookie', key: 'isLoggedIn' }] },
+    { source: '/signin', has: [{ type: 'cookie', key: 'isLoggedIn' }] },
   ],
 };

@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import path from 'path';
 import dotenv from 'dotenv';
 import User from '@api/models/user';
 import { authRequest } from '@api/types/users';
 import { PASSWORD } from '@api/constants/users';
-import cookiesOptions from '@api/config/cookies';
 import { generateTokens } from '@api/utils/jwt';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
@@ -69,9 +67,6 @@ export const getCurrentUser = async (req: authRequest, res: Response, next: Next
     const { userId } = req;
     const user = await User.findById(userId).select('-password -salt -__v');
     if (!user) return res.sendStatus(404);
-    const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
-
-    res.cookie('jwt', token, cookiesOptions);
 
     return res.status(200).send(user);
   } catch (error) {
