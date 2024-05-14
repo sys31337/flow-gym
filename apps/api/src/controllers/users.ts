@@ -1,20 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
 import path from 'path';
 import dotenv from 'dotenv';
 import User from '@api/models/user';
 import { authRequest } from '@api/types/users';
 import { PASSWORD } from '@api/constants/users';
+import { getAuth } from '@api/config/firebase-config';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const payload = req.body;
-    const salt = await bcrypt.genSalt(10);
-    const password = await bcrypt.hash(payload.password, salt);
+    const { email, password } = payload;
+    const firebase = await getAuth().createUser({ email, password });
+    const firebaseId = firebase.uid;
     const userPayload = {
-      ...payload, authProvider: PASSWORD, password, salt,
+      ...payload, firebaseId, authProvider: PASSWORD,
     };
     const create = await new User(userPayload).save();
     return res.status(200).send(create);
@@ -26,8 +27,8 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 export const providerAuthentication = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const payload = req.body;
-    const { firebaseId, email } = payload;
-    const user = await User.findOne({ $or: [{ firebaseId }, { email }] });
+    const { firebaseId, email, authProvider } = payload;
+    const user = await User.findOneAndUpdate({ $or: [{ firebaseId }, { email }] }, { authProvider });
     if (user) res.status(200).send(user);
     const newUser = await new User(payload).save();
     return res.status(200).send(newUser);

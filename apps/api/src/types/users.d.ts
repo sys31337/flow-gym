@@ -7,7 +7,7 @@ export interface authRequest extends Request {
   picture?: string;
   name?: string;
   authTime?: Date;
-  providerId?: string;
+  authProvider?: string;
   userId?: string | ObjectId;
   user?: IUser;
 }

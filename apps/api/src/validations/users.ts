@@ -20,7 +20,7 @@ const providerAuthenticateSchema = Joi.object({
   email: string.required(),
   avatar: string,
   firebaseId: string.required(),
-  providerId: string.required(),
+  authProvider: string.required(),
 });
 
 export const userCreateValidator = validator.body(userCreateSchema);

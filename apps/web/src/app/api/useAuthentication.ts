@@ -1,6 +1,8 @@
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { checkUserExistance } from '@shared/functions/user';
 import axiosInstance from '@shared/services/api';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { auth } from '@config/firebase';
 
 interface Payload {
   email: string;
@@ -12,7 +14,7 @@ interface AuthenticateWithProviderPayload {
   email: string | null;
   avatar: string | null;
   firebaseId: string | null;
-  providerId: string | null;
+  authProvider: string | null;
 }
 
 export const useCreateAccount = () => useMutation({
@@ -38,4 +40,11 @@ export const useGetCurrentUser = () => useQuery({
   queryFn: async () => axiosInstance
     .request({ url: 'users/current' })
     .then(({ data }) => data),
+});
+
+export const useLoginWithEmailAndPassword = () => useMutation({
+  mutationFn: async (payload: Payload) => {
+    const { email, password } = payload;
+    return signInWithEmailAndPassword(auth, email, password);
+  },
 });

@@ -1,7 +1,9 @@
+import { User } from 'firebase/auth';
 import { IUser } from "./user";
 
 export interface StateType {
-  user?: IUser | null;
+  user?: User | null;
+  currentUser?: IUser | null;
 }
 
 export interface PayloadType {

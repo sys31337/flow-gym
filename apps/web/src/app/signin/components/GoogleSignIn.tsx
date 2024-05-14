@@ -15,9 +15,9 @@ const GoogleSignIn = () => {
   const handleSignInWithGoogle = async () => {
     try {
       const response = await signInWithPopup(auth, googleProvider);
-      const { user: { displayName, email, photoURL: avatar, uid: firebaseId }, providerId } = response;
+      const { user: { displayName, email, photoURL: avatar, uid: firebaseId }, providerId: authProvider } = response;
       const payload = {
-        displayName, email, avatar, firebaseId, providerId,
+        displayName, email, avatar, firebaseId, authProvider,
       };
       await authWithProvider(payload);
       dispatch({ type: 'SET_IS_LOGGED', payload: true });

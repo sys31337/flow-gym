@@ -1,5 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { GoogleAuthProvider, getAuth } from 'firebase/auth';
+import e from './firebase-errors.json';
+
+interface Error { [key: string]: string }
 
 const API_KEY = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_API_KEY;
 const AUTH_DOMAIN = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_AUTH_DOMAIN;
@@ -9,7 +12,7 @@ const MESSAGING_SENDER_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_MESSAGING_SE
 const APP_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_APP_ID;
 const MEASUREMENT_ID = process.env.NEXT_PUBLIC_SERVICE_ACCOUNT_MEASUREMENT_ID;
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: API_KEY,
   authDomain: AUTH_DOMAIN,
   projectId: PROJECT_ID,
@@ -21,6 +24,10 @@ export const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+const errors = e as Error;
+
+export { firebaseConfig, auth, googleProvider, errors };
 export default app;

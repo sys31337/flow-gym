@@ -27,7 +27,8 @@ const auth = async (req: authRequest, res: Response, next: NextFunction): Promis
     req.email = decodedValue.email;
     req.picture = decodedValue.picture;
     req.authTime = new Date(decodedValue.auth_time * 1000);
-    req.providerId = decodedValue.firebase.sign_in_provider;
+    req.authProvider = decodedValue.firebase.sign_in_provider;
+
     const user = await User.findOne({ firebaseId: decodedValue.uid });
     // if ((originalUrl === '/api/v1/users/google-login' && !user) || (originalUrl !== '/api/v1/users' && method !== 'POST')) {
     if ((originalUrl === '/api/v1/users/provider' && !user)) {

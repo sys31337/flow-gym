@@ -2,10 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { FirebaseError } from 'firebase/app';
 import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
+import { BsExclamationCircleFill } from 'react-icons/bs';
+import { useLoginWithEmailAndPassword } from '@api/useAuthentication';
 import { useAuth } from '@providers/AuthProvider';
 import Loading from '@components/Loading';
+import { errors } from '@config/firebase';
 import GoogleSignIn from './components/GoogleSignIn';
 
 const initialValues = {
@@ -14,8 +18,21 @@ const initialValues = {
 };
 const SignIn = () => {
   const [loading, setLoading] = useState(true);
-  const { state: { user }, loading: authLoading } = useAuth();
-  const onSubmit = async (_values: typeof initialValues) => true;
+  const [error, setError] = useState<string | null>(null);
+  const { state: { user }, dispatch, loading: authLoading } = useAuth();
+  const { mutateAsync: signinWithEmailAndPassword, isPending } = useLoginWithEmailAndPassword();
+
+  const onSubmit = async (values: typeof initialValues) => {
+    const { email, password } = values;
+    try {
+      setError('');
+      const login = await signinWithEmailAndPassword({ email, password });
+      dispatch({ type: 'USER', payload: login });
+    } catch (err) {
+      const e = err as FirebaseError;
+      setError(errors[e?.code || 'auth/internal-error'] || '');
+    }
+  };
 
   const router = useRouter();
 
@@ -39,8 +56,21 @@ const SignIn = () => {
           Sign in to your account
         </h2>
       </div>
-
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        {!!error && (
+          <div className="border-red-400 bg-red-100 p-4 mt-5 rounded-lg">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <BsExclamationCircleFill fill='red' />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-red-700">
+                  {error}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
@@ -57,7 +87,7 @@ const SignIn = () => {
               </div>
 
               <div className="flex flex-col gap-2 mt-5">
-                <button type="submit" className="btn-primary"> Sign in </button>
+                <button type="submit" className="btn-primary" disabled={isPending}> Sign in </button>
                 <div className="relative flex py-5 items-center">
                   <div className="flex-grow border-t border-gray-400"></div>
                   <span className="flex-shrink mx-4 text-gray-400">or</span>

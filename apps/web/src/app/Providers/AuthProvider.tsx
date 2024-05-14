@@ -8,7 +8,7 @@ import { AuthType, PayloadType, StateType } from '@repo/types/auth';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
-const initialState = { user: null };
+const initialState = { user: null, currentUser: null };
 
 export const AuthContext = createContext<AuthType>({
   state: initialState,
@@ -22,6 +22,8 @@ const authReducer = (state: StateType, action: PayloadType) => {
       return { ...state };
     case 'USER':
       return { user: action.payload };
+    case 'CURRENT_USER':
+      return { ...state, currentUser: action.payload };
     case 'LOGOUT':
       return { user: null };
     default:
