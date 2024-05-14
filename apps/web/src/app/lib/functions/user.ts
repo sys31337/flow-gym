@@ -1,4 +1,4 @@
-import axiosInstance from '@shared/services/api';
+import axiosInstance from '@services/api';
 
 export const getCurrentUser = () => axiosInstance
   .request({ withCredentials: true, url: 'users/current' })

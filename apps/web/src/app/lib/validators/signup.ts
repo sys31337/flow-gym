@@ -1,4 +1,4 @@
-import { checkUserExistance } from '@shared/functions/user';
+import { checkUserExistance } from '@functions/user';
 import * as Yup from 'yup';
 
 const SignupSchema = Yup.object().shape({

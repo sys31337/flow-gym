@@ -7,31 +7,37 @@
       }
     ],
     "strictNullChecks": true,
-    "baseUrl": "./src",
+    "baseUrl": "./src/app",
     "paths": {
+      "@api/*": [
+        "./api/*"
+      ],
       "@config": [
-        "./app/config"
+        "./lib/config"
       ],
       "@config/*": [
-        "./app/config/*"
-      ],
-      "@modules/*": [
-        "./app/modules/*"
-      ],
-      "@api/*": [
-        "./app/api/*"
-      ],
-      "@shared/*": [
-        "./app/shared/*"
+        "./lib/config/*"
       ],
       "@validators/*": [
-        "./app/validators/*"
+        "./lib/validators/*"
       ],
       "@providers/*": [
-        "./app/providers/*"
+        "./lib/providers/*"
+      ],
+      "@services/*": [
+        "./lib/services/*"
       ],
       "@components/*": [
-        "./app/components/*"
+        "./lib/components/*"
+      ],
+      "@functions/*": [
+        "./lib/functions/*"
+      ],
+      "@constants/*": [
+        "./lib/constants/*"
+      ],
+      "@lib/*": [
+        "./lib/*"
       ]
     },
     "lib": [

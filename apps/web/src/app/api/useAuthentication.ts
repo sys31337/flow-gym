@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { checkUserExistance } from '@shared/functions/user';
-import axiosInstance from '@shared/services/api';
+import { checkUserExistance } from '@functions/user';
+import axiosInstance from '@services/api';
 import { auth } from '@config/firebase';
 
 interface Payload {

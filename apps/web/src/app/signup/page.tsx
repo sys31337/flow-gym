@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useCreateAccount } from '@api/useAuthentication';
 import SignupSchema from '@validators/signup';
-import showAlert from '@shared/functions/showAlert';
+import showAlert from '@functions/showAlert';
 
 const SignUp = () => {
   const router = useRouter();

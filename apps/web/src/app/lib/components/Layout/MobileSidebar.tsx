@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react';
-import { classNames } from '@repo/utils';
 import { HiXMark } from 'react-icons/hi2';
+import { classNames } from '@repo/utils';
 import { navigation } from './Sidebar';
 
 interface MobileSidebarProps {

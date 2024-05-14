@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { signInWithPopup } from 'firebase/auth';
 import { FcGoogle } from 'react-icons/fc';
 import { auth, googleProvider } from '@config/firebase';
-import showAlert from '@shared/functions/showAlert';
+import showAlert from '@functions/showAlert';
 import { useAuth } from '@providers/AuthProvider';
 import { useAuthenticateWithProvider } from '@api/useAuthentication';
 

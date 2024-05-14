@@ -4,9 +4,9 @@ import React, {
   createContext, useReducer, useMemo, useEffect, useContext,
   useState,
 } from 'react';
-import { AuthType, PayloadType, StateType } from '@repo/types/auth';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import { AuthType, PayloadType, StateType } from '@repo/types/auth';
+import { auth } from '@config/firebase';
 
 const initialState = { user: null, currentUser: null };
 
