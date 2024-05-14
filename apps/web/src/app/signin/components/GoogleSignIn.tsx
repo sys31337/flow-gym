@@ -15,7 +15,14 @@ const GoogleSignIn = () => {
   const handleSignInWithGoogle = async () => {
     try {
       const response = await signInWithPopup(auth, googleProvider);
-      const { user: { displayName, email, photoURL: avatar, uid: firebaseId }, providerId: authProvider } = response;
+      const { user: { displayName, email, photoURL, uid: firebaseId }, providerId: authProvider } = response;
+      let avatar = photoURL;
+      if (avatar?.includes('googleusercontent')) {
+        const avatarSplit = avatar.split('=');
+        avatarSplit.pop();
+        const avatarJoin = avatarSplit.join('');
+        avatar = avatarJoin;
+      }
       const payload = {
         displayName, email, avatar, firebaseId, authProvider,
       };
