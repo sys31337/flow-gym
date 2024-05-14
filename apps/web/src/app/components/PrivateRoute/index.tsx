@@ -15,10 +15,8 @@ const PrivateRoute = (WrappedComponent: React.FC<Any>) => {
     const pathname = usePathname();
     const { state: { user }, loading: authLoading } = useAuth();
     useEffect(() => {
-      console.log(user);
       if (!authLoading) {
         if (!user) {
-          console.log('here');
           router.replace('/signin');
         } else {
           setLoading(false);
