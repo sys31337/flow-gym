@@ -3,8 +3,8 @@
 import { signOut } from 'firebase/auth';
 import { auth } from '@config/firebase';
 import PrivateRoute from '@components/PrivateRoute';
-import Layout from './components/Layout';
-import { useAuth } from './providers/AuthProvider';
+import { useAuth } from '@providers/AuthProvider';
+import Layout from '@components/Layout';
 
 const Page = (): JSX.Element => {
   const { state: { user }, dispatch } = useAuth();

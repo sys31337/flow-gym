@@ -1,19 +1,35 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Field, Form, Formik } from 'formik';
-import PrivateRoute from '@components/PrivateRoute';
+import { useAuth } from '@providers/AuthProvider';
+import Loading from '@components/Loading';
 import GoogleSignIn from './components/GoogleSignIn';
 
+const initialValues = {
+  email: '',
+  password: '',
+};
 const SignIn = () => {
-  const initialValues = {
-    email: '',
-    password: '',
-  };
-
+  const [loading, setLoading] = useState(true);
+  const { state: { user }, loading: authLoading } = useAuth();
   const onSubmit = async (_values: typeof initialValues) => true;
 
-  return (
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authLoading) {
+      if (user) {
+        router.replace('/');
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [user, authLoading, router]);
+
+  return (loading || authLoading) ? <Loading /> : (
     <div className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h1 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -63,4 +79,4 @@ const SignIn = () => {
   );
 };
 
-export default PrivateRoute(SignIn);
+export default SignIn;

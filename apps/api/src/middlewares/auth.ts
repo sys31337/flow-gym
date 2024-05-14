@@ -30,7 +30,7 @@ const auth = async (req: authRequest, res: Response, next: NextFunction): Promis
     req.providerId = decodedValue.firebase.sign_in_provider;
     const user = await User.findOne({ firebaseId: decodedValue.uid });
     // if ((originalUrl === '/api/v1/users/google-login' && !user) || (originalUrl !== '/api/v1/users' && method !== 'POST')) {
-    if ((originalUrl === '/api/v1/users/google-login' && !user)) {
+    if ((originalUrl === '/api/v1/users/provider' && !user)) {
       return next();
     }
     if (!user) {

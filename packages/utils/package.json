@@ -5,7 +5,7 @@
   "main": "./src",
   "types": "./src",
   "scripts": {
-    "build": "tsup src --format cjs --outDir src"
+    "build": "rm ./src/*.js && tsup src --format cjs --outDir src"
   },
   "devDependencies": {
     "tsup": "^8.0.2",
