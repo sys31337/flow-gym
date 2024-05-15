@@ -1,5 +1,5 @@
 import { User } from 'firebase/auth';
-import { IUser } from "./user";
+import { User as IUser } from "./user";
 
 export interface StateType {
   user?: User | null;

@@ -1,4 +1,7 @@
-export interface User {
+import { Types, PopulatedDoc } from 'mongoose;'
+import { Club } from './club';
+
+export interface User extends Document {
   fullname: string;
   email?: string;
   firebaseId?: string;
@@ -6,5 +9,6 @@ export interface User {
   avatar?: string;
   kind: "MEMBER" | "COACH" | "MANAGER" | "ADMIN";
   isAdmin?: boolean;
-  authProvider: "google.com" | "phone" | "password" | "apple.com";
+  authProvider: "google.com" | "phone" | "password" | "apple.com"
+  clubId: Types.ObjectId | PopulatedDoc<Club>;
 }

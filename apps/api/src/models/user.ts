@@ -34,10 +34,10 @@ const userSchema = new Schema<User>({
     type: String,
     enum: AUTHPROVIDERS,
   },
-  // clubId: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Club',
-  // }
+  clubId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Club',
+  },
 });
 
 const User = model<User>('User', userSchema);
