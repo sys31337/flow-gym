@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react';
 import { HiXMark } from 'react-icons/hi2';
+import Logo from '@lib/assets/Logo';
 import { classNames } from '@repo/utils';
 import { navigation } from './Sidebar';
 
@@ -56,11 +57,7 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({ sidebarOpen, setSidebarOp
               </div>
             </TransitionChild>
             <div className="flex flex-shrink-0 items-center px-4">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-              />
+              <Logo />
             </div>
             <div className="mt-5 h-0 flex-1 overflow-y-auto">
               <nav className="space-y-1 px-2">

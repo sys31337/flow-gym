@@ -3,6 +3,7 @@ import { classNames } from '@repo/utils';
 import {
   HiCalendar, HiChartBar, HiFolder, HiHome, HiInbox, HiUsers,
 } from 'react-icons/hi2';
+import Logo from '@lib/assets/Logo';
 
 export const navigation = [
   { name: 'Dashboard', href: '#', icon: HiHome, current: true },
@@ -17,11 +18,7 @@ const Sidebar = () => (
   <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col z-10">
     <div className="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5">
       <div className="flex flex-shrink-0 items-center px-4">
-        <img
-          className="h-8 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Your Company"
-        />
+        <Logo weight={200} />
       </div>
       <div className="mt-5 flex flex-grow flex-col">
         <nav className="flex-1 space-y-1 px-2 pb-4">
