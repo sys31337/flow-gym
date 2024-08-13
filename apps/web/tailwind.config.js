@@ -7,6 +7,20 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        expand: {
+          '0%': { maxHeight: '0', opacity: '0' },
+          '100%': { maxHeight: '1000px', opacity: '1' },
+        },
+        collapse: {
+          '0%': { maxHeight: '1000px', opacity: '1' },
+          '100%': { maxHeight: '0', opacity: '0' },
+        },
+      },
+      animation: {
+        expand: 'expand 300ms ease-out forwards',
+        collapse: 'collapse 300ms ease-out forwards',
+      },
       colors: {
         google: {
           "text-gray": "#3c4043",
