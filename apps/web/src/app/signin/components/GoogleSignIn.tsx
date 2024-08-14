@@ -39,7 +39,7 @@ const GoogleSignIn = () => {
     <button
       aria-label="Sign in with Google"
       type="button"
-      className="btn-google"
+      className="btn-secondary"
       onClick={() => handleSignInWithGoogle()}
     >
       <div className="flex items-center bg-white w-9 h-9 rounded-l">
