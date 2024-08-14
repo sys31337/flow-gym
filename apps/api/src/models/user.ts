@@ -1,8 +1,5 @@
 import { Schema, model } from 'mongoose';
-import {
-  COACH, MANAGER, ADMIN, MEMBER,
-  AUTHPROVIDERS,
-} from '@api/constants/users';
+import { AUTHPROVIDERS } from '@api/constants/users';
 import type { User } from '@repo/types/user';
 
 const userSchema = new Schema<User>({
@@ -20,11 +17,6 @@ const userSchema = new Schema<User>({
   avatar: {
     type: String,
     default: 'assets/avatars/default.png',
-  },
-  kind: {
-    type: String,
-    enum: [MEMBER, COACH, MANAGER, ADMIN],
-    default: MEMBER,
   },
   isAdmin: {
     type: Boolean,

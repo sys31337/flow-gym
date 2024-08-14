@@ -21,7 +21,7 @@ export const navigation = [
     icon: FiFolder,
     current: false,
     children: [
-      { name: 'Activities', href: '#', current: false },
+      { name: 'Classes', href: 'subscriptions/classes', current: false },
       { name: 'Offers', href: '#', current: false },
     ],
   },

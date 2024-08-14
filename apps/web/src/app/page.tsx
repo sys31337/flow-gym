@@ -1,12 +1,12 @@
 'use client';
 
 import PrivateRoute from '@components/PrivateRoute';
-import Layout from '@components/Layout';
 
 const Page = (): JSX.Element => (
-  <Layout>
+  <>
+    <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
     <p>Hello</p>
-  </Layout>
+  </>
 );
 
 export default PrivateRoute(Page);

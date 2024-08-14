@@ -4,33 +4,43 @@ import dotenv from 'dotenv';
 import User from '@api/models/user';
 import { authRequest } from '@api/types/users';
 import { PASSWORD } from '@api/constants/users';
-import { getAuth } from '@api/config/firebase-config';
+import { createClub } from '@api/functions/club';
+import Club from '@api/models/club';
+import { createFirebaseUser } from '@api/functions/firebase';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const payload = req.body;
-    const { email, password } = payload;
-    const firebase = await getAuth().createUser({ email, password });
-    const firebaseId = firebase.uid;
+    const { email, password, fullname } = payload;
+    const firebaseId = await createFirebaseUser({ email, password });
     const userPayload = {
       ...payload, firebaseId, authProvider: PASSWORD,
     };
-    const create = await new User(userPayload).save();
-    return res.status(200).send(create);
+    const club = await createClub(fullname);
+    const newUser = await new User(userPayload).save();
+    await Club.updateOne({ _id: club._id }, { userId: newUser._id });
+    return res.status(200).send(newUser);
   } catch (error) {
     return next(error);
   }
 };
 
-export const providerAuthentication = async (req: Request, res: Response, next: NextFunction) => {
+export const providerAuthentication = async (req: authRequest, res: Response, next: NextFunction) => {
   try {
-    const payload = req.body;
-    const { firebaseId, email, authProvider } = payload;
+    const { body, name } = req;
+    const { firebaseId, email, authProvider } = body;
     const user = await User.findOneAndUpdate({ $or: [{ firebaseId }, { email }] }, { authProvider });
-    if (user) res.status(200).send(user);
+    if (user) return res.status(200).send(user);
+    const club = await createClub(name);
+    const payload = {
+      ...body,
+      fullname: name,
+      clubId: club._id,
+    };
     const newUser = await new User(payload).save();
+    await Club.updateOne({ _id: club._id }, { userId: newUser._id });
     return res.status(200).send(newUser);
   } catch (error) {
     return next(error);

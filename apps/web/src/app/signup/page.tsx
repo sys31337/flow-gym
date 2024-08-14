@@ -6,10 +6,11 @@ import { useRouter } from 'next/navigation';
 import { useCreateAccount } from '@api/useAuthentication';
 import SignupSchema from '@validators/signup';
 import showAlert from '@functions/showAlert';
+import Loading from '@components/Loading';
 
 const SignUp = () => {
   const router = useRouter();
-  const { mutateAsync: createAccount } = useCreateAccount();
+  const { mutateAsync: createAccount, isPending } = useCreateAccount();
   const initialValues = {
     fullname: '',
     email: '',
@@ -38,14 +39,19 @@ const SignUp = () => {
         </h2>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      {isPending && (
+        <div className="absolute w-full h-full bg-gray-300 z-20 bg-opacity-70 backdrop-blur-sm rounded-lg">
+          <Loading />
+        </div>
+      )}
+      <div className="mt-10 mx-auto sm:w-full sm:max-w-sm relative py-5 px-2">
         <Formik
           initialValues={initialValues}
           validationSchema={SignupSchema}
           onSubmit={onSubmit}
         >
           {({ errors, touched, isValid }) => (
-            <Form>
+            <Form className="mx-auto">
               <div className="mt-2">
                 <label htmlFor="fullname" className="block text-sm font-medium leading-6 text-gray-900">Full name</label>
                 <Field name="fullname" className={`form-control ${errors.fullname && touched.fullname ? 'invalid-input' : null}`} />

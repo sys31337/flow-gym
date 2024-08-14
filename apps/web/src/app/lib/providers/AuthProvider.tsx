@@ -7,6 +7,8 @@ import React, {
 import { onAuthStateChanged } from 'firebase/auth';
 import { AuthType, PayloadType, StateType } from '@repo/types/auth';
 import { auth } from '@config/firebase';
+import Layout from '@components/Layout';
+import Loading from '@components/Loading';
 
 const initialState = { user: null, currentUser: null };
 
@@ -50,10 +52,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     });
     return () => unsubscribe();
   }, []);
-
-  return (
+  return loading ? <Loading /> : (
     <AuthContext.Provider value={contextValues}>
-      {children}
+      {!state.user ? children : (
+        <Layout>
+          {children}
+        </Layout>
+      )}
     </AuthContext.Provider>
   );
 };

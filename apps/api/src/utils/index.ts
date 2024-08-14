@@ -1,2 +1,5 @@
 const { log, error: logError } = console;
-export { log, logError };
+
+const compareArrays = (a: string[], b: string[]) => a.length === b.length && a.every((element) => b.indexOf(element) > -1);
+
+export { log, logError, compareArrays };

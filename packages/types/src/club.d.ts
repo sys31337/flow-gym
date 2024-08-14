@@ -8,9 +8,12 @@ interface Gps {
 
 export interface Club extends Document {
   _id: Types.ObjectId;
+  uid: number;
+  isActive: boolean;
+  isTrial: boolean;
   name: string;
   tagline: string;
-  gps: Gps,
-  logo: string,
-  userId: Types.ObjectId | User
+  gps: Gps;
+  logo: string;
+  userId: Types.ObjectId | User;
 }
