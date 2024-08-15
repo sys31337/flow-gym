@@ -1,11 +1,7 @@
 import React from 'react';
 
-type Props = {}
-
-const Subscriptions = (props: Props) => {
-  return (
+const Subscriptions = () => (
     <div>Subscriptions</div>
-  )
-}
+);
 
 export default Subscriptions;

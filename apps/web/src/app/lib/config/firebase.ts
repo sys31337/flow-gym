@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { GoogleAuthProvider, getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 import e from './firebase-errors.json';
 
 interface Error { [key: string]: string }
@@ -27,7 +28,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+const storage = getStorage(app);
+
 const errors = e as Error;
 
-export { firebaseConfig, auth, googleProvider, errors };
+export {
+  firebaseConfig, auth, googleProvider, errors, storage,
+};
 export default app;
